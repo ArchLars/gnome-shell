@@ -868,7 +868,7 @@ const EmojiPager = GObject.registerClass({
     }
 });
 
-const EmojiSelection = GObject.registerClass({
+export const EmojiSelection = GObject.registerClass({
     Signals: {
         'emoji-selected': {param_types: [GObject.TYPE_STRING]},
         'close-request': {},

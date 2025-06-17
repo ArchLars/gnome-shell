@@ -3,6 +3,7 @@
 data/50-gnome-shell-launchers.xml
 data/50-gnome-shell-screenshots.xml
 data/50-gnome-shell-system.xml
+data/50-gnome-shell-emoji.xml
 data/org.gnome.Shell.desktop.in.in
 data/org.gnome.shell.gschema.xml.in
 data/org.gnome.Shell.Extensions.desktop.in.in
@@ -53,6 +54,7 @@ js/ui/overview.js
 js/ui/padOsd.js
 js/ui/panel.js
 js/ui/popupMenu.js
+js/ui/emojiPicker.js
 js/ui/quickSettings.js
 js/ui/runDialog.js
 js/ui/screenShield.js
