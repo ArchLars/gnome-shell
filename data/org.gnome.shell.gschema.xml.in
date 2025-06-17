@@ -278,6 +278,10 @@
       <default>["&lt;Shift&gt;Print"]</default>
       <summary>Take a screenshot</summary>
     </key>
+    <key name="emoji-picker" type="as">
+      <default>["&lt;Ctrl&gt;&lt;Alt&gt;space","&lt;Super&gt;."]</default>
+      <summary>Open the emoji picker</summary>
+    </key>
   </schema>
 
   <schema id="org.gnome.shell.app-switcher"

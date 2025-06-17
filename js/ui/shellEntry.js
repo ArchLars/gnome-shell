@@ -8,6 +8,7 @@ import * as BoxPointer from './boxpointer.js';
 import * as Main from './main.js';
 import * as Params from '../misc/params.js';
 import * as PopupMenu from './popupMenu.js';
+import {EmojiPicker} from './emojiPicker.js';
 
 export class EntryMenu extends PopupMenu.PopupMenu {
     constructor(entry) {
@@ -27,6 +28,11 @@ export class EntryMenu extends PopupMenu.PopupMenu {
         item.connect('activate', this._onPasteActivated.bind(this));
         this.addMenuItem(item);
         this._pasteItem = item;
+
+        item = new PopupMenu.PopupMenuItem(_('Insert Emoji…'));
+        item.connect('activate', this._onEmojiActivated.bind(this));
+        this.addMenuItem(item);
+        this._emojiItem = item;
 
         if (entry instanceof St.PasswordEntry)
             this._makePasswordItem();
@@ -98,6 +104,18 @@ export class EntryMenu extends PopupMenu.PopupMenu {
 
     _onPasswordActivated() {
         this._entry.password_visible  = !this._entry.password_visible;
+    }
+
+    _onEmojiActivated() {
+        if (!this._emojiPicker) {
+            this._emojiPicker = new EmojiPicker();
+            this._emojiPicker.connect('emoji-selected', (_p, emoji) => {
+                let pos = this._entry.clutter_text.get_cursor_position();
+                this._entry.clutter_text.insert_text(emoji, pos);
+            });
+        }
+
+        this._emojiPicker.openForEntry(this._entry);
     }
 }
 

@@ -33,6 +33,7 @@ import * as LookingGlass from './lookingGlass.js';
 import * as NotificationDaemon from './notificationDaemon.js';
 import * as WindowAttentionHandler from './windowAttentionHandler.js';
 import * as Screenshot from './screenshot.js';
+import {EmojiPicker} from './emojiPicker.js';
 import * as ScreenShield from './screenShield.js';
 import * as SessionMode from './sessionMode.js';
 import * as ShellDBus from './shellDBus.js';
@@ -73,6 +74,7 @@ export let osdWindowManager = null;
 export let osdMonitorLabeler = null;
 export let sessionMode = null;
 export let screenshotUI = null;
+export let emojiPicker = null;
 export let shellAccessDialogDBusService = null;
 export let shellAudioSelectionDBusService = null;
 export let shellDBusService = null;
@@ -241,6 +243,21 @@ async function _initializeUI() {
         () => global.stage.context.get_backend().set_input_method(null));
 
     screenshotUI = new Screenshot.ScreenshotUI();
+    emojiPicker = new EmojiPicker();
+    emojiPicker.connect('emoji-selected', (_p, emoji) => {
+        let actor = global.stage.get_key_focus();
+        let entry = null;
+        if (actor instanceof St.Entry)
+            entry = actor;
+        else if (actor && actor.get_parent() instanceof St.Entry)
+            entry = actor.get_parent();
+
+        if (entry)
+            entry.clutter_text.insert_text(emoji,
+                entry.clutter_text.get_cursor_position());
+        else
+            St.Clipboard.get_default().set_text(St.ClipboardType.CLIPBOARD, emoji);
+    });
 
     messageTray = new MessageTray.MessageTray();
     panel = new Panel.Panel();
